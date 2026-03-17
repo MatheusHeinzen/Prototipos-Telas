@@ -13,6 +13,9 @@ import LoginColaborador from "./pages/LoginColaborador";
 import DashboardAluno from "./pages/DashboardAluno";
 import DashboardProfessor from "./pages/DashboardProfessor";
 import DashboardSecretaria from "./pages/DashboardSecretaria";
+import DashboardGestao from "./pages/DashboardGestao";
+import DashboardFinanceiro from "./pages/DashboardFinanceiro";
+import DashboardPsicologo from "./pages/DashboardPsicologo";
 import DashboardPlaceholder from "./pages/DashboardPlaceholder";
 import ModuleSubPage from "./pages/ModuleSubPage";
 
@@ -51,14 +54,14 @@ const App = () => (
           <Route path="/dashboard/secretaria/espera" element={<ModuleSubPage role="secretaria" slug="espera" title="Lista de Espera" />} />
           <Route path="/dashboard/secretaria/documentos" element={<ModuleSubPage role="secretaria" slug="documentos" title="Documentos" />} />
 
-          <Route path="/dashboard/gestao" element={<DashboardPlaceholder role="gestao" title="da Gestão" />} />
+          <Route path="/dashboard/gestao" element={<DashboardGestao />} />
           <Route path="/dashboard/gestao/relatorios" element={<ModuleSubPage role="gestao" slug="relatorios" title="Relatórios Institucionais" />} />
           <Route path="/dashboard/gestao/frequencia" element={<ModuleSubPage role="gestao" slug="frequencia" title="Monitoramento Frequência" />} />
           <Route path="/dashboard/gestao/cronograma" element={<ModuleSubPage role="gestao" slug="cronograma" title="Cronograma Oficinas" />} />
           <Route path="/dashboard/gestao/voluntarios" element={<ModuleSubPage role="gestao" slug="voluntarios" title="Voluntários" />} />
           <Route path="/dashboard/gestao/financeiro" element={<ModuleSubPage role="gestao" slug="financeiro" title="Dados Financeiros" />} />
 
-          <Route path="/dashboard/financeiro" element={<DashboardPlaceholder role="financeiro" title="do Financeiro" />} />
+          <Route path="/dashboard/financeiro" element={<DashboardFinanceiro />} />
           <Route path="/dashboard/financeiro/notas" element={<ModuleSubPage role="financeiro" slug="notas" title="Notas Fiscais" />} />
           <Route path="/dashboard/financeiro/pagar" element={<ModuleSubPage role="financeiro" slug="pagar" title="Contas a Pagar" />} />
           <Route path="/dashboard/financeiro/receber" element={<ModuleSubPage role="financeiro" slug="receber" title="Contas a Receber" />} />
@@ -66,7 +69,7 @@ const App = () => (
           <Route path="/dashboard/financeiro/relatorios" element={<ModuleSubPage role="financeiro" slug="relatorios" title="Relatórios Financeiros" />} />
           <Route path="/dashboard/financeiro/dados" element={<ModuleSubPage role="financeiro" slug="dados" title="Meus Dados" />} />
 
-          <Route path="/dashboard/psicologo" element={<DashboardPlaceholder role="psicologo" title="do Psicólogo" />} />
+          <Route path="/dashboard/psicologo" element={<DashboardPsicologo />} />
           <Route path="/dashboard/psicologo/pacientes" element={<ModuleSubPage role="psicologo" slug="pacientes" title="Pacientes" />} />
           <Route path="/dashboard/psicologo/anotacoes" element={<ModuleSubPage role="psicologo" slug="anotacoes" title="Anotações Terapêuticas" />} />
           <Route path="/dashboard/psicologo/historico" element={<ModuleSubPage role="psicologo" slug="historico" title="Histórico Clínico" />} />

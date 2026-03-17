@@ -56,12 +56,60 @@ export const mockContasReceber = [
   { descricao: "Convênio Municipal", previsao: "30/06/2025", valor: "R$ 8.000,00", status: "Pendente" },
 ];
 
+export const mockDoacoes = [
+  { padrinho: "Padrinho A", data: "10/06/2025", valor: "R$ 1.500,00", forma: "Pix", status: "Confirmada" },
+  { padrinho: "Padrinho B", data: "05/06/2025", valor: "R$ 800,00", forma: "Boleto", status: "Pendente" },
+];
+
+export const mockNotasFiscais = [
+  { numero: "NF-1023", data: "03/06/2025", descricao: "Compra de materiais", valor: "R$ 850,00", status: "Emitida" },
+  { numero: "NF-1024", data: "11/06/2025", descricao: "Serviço de internet", valor: "R$ 320,00", status: "Emitida" },
+];
+
+export const mockFluxoCaixaMensal = [
+  { mes: "Jan", entradas: 12000, saidas: 9800 },
+  { mes: "Fev", entradas: 13500, saidas: 10200 },
+  { mes: "Mar", entradas: 11000, saidas: 8900 },
+  { mes: "Abr", entradas: 15000, saidas: 12000 },
+  { mes: "Mai", entradas: 14200, saidas: 11300 },
+  { mes: "Jun", entradas: 16000, saidas: 12500 },
+];
+
+export const mockVoluntarios = [
+  { nome: "Mariana Alves", area: "Reforço Escolar", dias: "Ter/Qui", status: "Ativo" },
+  { nome: "João Mendes", area: "Esportes", dias: "Sex", status: "Ativo" },
+  { nome: "Carla Rocha", area: "Artes", dias: "Seg/Qua", status: "Em análise" },
+];
+
+export const mockCronogramaOficinas = [
+  { oficina: "Robótica", dia: "Terça", horario: "10:00", sala: "Lab B", turma: "Nível 1" },
+  { oficina: "Violão", dia: "Quinta", horario: "14:00", sala: "Sala 02", turma: "Nível 1" },
+  { oficina: "Futebol", dia: "Sexta", horario: "09:00", sala: "Quadra", turma: "Social" },
+];
+
+export const mockAlertasGestao = [
+  { tipo: "Risco", mensagem: "Frequência abaixo de 75% em 2 turmas.", severidade: "alta" },
+  { tipo: "Atenção", mensagem: "Pendências documentais acima do normal.", severidade: "media" },
+  { tipo: "Info", mensagem: "Novo relatório mensal disponível.", severidade: "baixa" },
+];
+
 export const mockPacientesPsicologo = [
   { id: 1, nome: "Paciente A", idade: 10, condicao: "Acompanhamento preventivo" },
   { id: 2, nome: "Paciente B", idade: 12, condicao: "Nenhuma informada" },
 ];
 
+export const mockAtendimentosHoje = [
+  { horario: "09:00", paciente: "Paciente A", tipo: "Avaliação", status: "Agendado" },
+  { horario: "10:30", paciente: "Paciente B", tipo: "Acompanhamento", status: "Confirmado" },
+  { horario: "14:00", paciente: "Paciente C", tipo: "Retorno", status: "Pendente" },
+];
+
+export const mockAnotacoesPsicologo = [
+  { paciente: "Paciente A", data: "01/06/2025", resumo: "Sessão focada em rotina e sono." },
+  { paciente: "Paciente B", data: "05/06/2025", resumo: "Trabalhado autocontrole e expressão." },
+];
+
 export const mockGradeHoraria = [
-  { time: "08:00", monday: { label: "Info Kids" }, tuesday: {}, wednesday: { label: "Inglês" }, thursday: { label: "Info Kids" }, friday: {} },
-  { time: "10:00", monday: {}, tuesday: { label: "Robótica" }, wednesday: {}, thursday: {}, friday: { label: "Esportes" } },
+  { time: "08:00", monday: { label: "Info Kids" }, wednesday: { label: "Inglês" }, thursday: { label: "Info Kids" } },
+  { time: "10:00", tuesday: { label: "Robótica" }, friday: { label: "Esportes" } },
 ];

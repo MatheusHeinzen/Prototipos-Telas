@@ -17,7 +17,14 @@ import {
   mockListaEspera,
   mockContasPagar,
   mockContasReceber,
+  mockDoacoes,
+  mockNotasFiscais,
+  mockVoluntarios,
+  mockCronogramaOficinas,
+  mockFluxoCaixaMensal,
   mockPacientesPsicologo,
+  mockAtendimentosHoje,
+  mockAnotacoesPsicologo,
   mockGradeHoraria,
 } from "@/lib/mockData";
 import { GradeHoraria } from "@/components/dashboard/GradeHoraria";
@@ -27,6 +34,72 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
+import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
+
+function FormNovaAnotacao() {
+  const [paciente, setPaciente] = useState("");
+  const [resumo, setResumo] = useState("");
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!paciente.trim() || !resumo.trim()) {
+      toast.error("Preencha paciente e resumo.");
+      return;
+    }
+    toast.success("Anotação registrada (protótipo).");
+    setPaciente("");
+    setResumo("");
+  };
+
+  return (
+    <DashboardCard title="Nova anotação terapêutica" description="Conteúdo restrito ao perfil psicólogo">
+      <form onSubmit={handleSubmit} className="space-y-4 max-w-md">
+        <div className="space-y-2">
+          <Label htmlFor="paciente">Paciente</Label>
+          <Input id="paciente" value={paciente} onChange={(e) => setPaciente(e.target.value)} placeholder="Ex.: Paciente A" />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="resumo">Resumo</Label>
+          <Input id="resumo" value={resumo} onChange={(e) => setResumo(e.target.value)} placeholder="Resumo da sessão" />
+        </div>
+        <Button type="submit">Salvar anotação</Button>
+      </form>
+    </DashboardCard>
+  );
+}
+
+function FormNovaDoacao() {
+  const [padrinho, setPadrinho] = useState("");
+  const [valor, setValor] = useState("");
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!padrinho.trim() || !valor.trim()) {
+      toast.error("Preencha padrinho e valor.");
+      return;
+    }
+    toast.success("Doação registrada (protótipo).");
+    setPadrinho("");
+    setValor("");
+  };
+
+  return (
+    <DashboardCard title="Registrar doação" description="Lançamento rápido (protótipo)">
+      <form onSubmit={handleSubmit} className="space-y-4 max-w-md">
+        <div className="space-y-2">
+          <Label htmlFor="padrinho">Padrinho</Label>
+          <Input id="padrinho" value={padrinho} onChange={(e) => setPadrinho(e.target.value)} placeholder="Ex.: Padrinho A" />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="valor">Valor</Label>
+          <Input id="valor" value={valor} onChange={(e) => setValor(e.target.value)} placeholder="Ex.: R$ 150,00" />
+        </div>
+        <Button type="submit">Salvar doação</Button>
+      </form>
+    </DashboardCard>
+  );
+}
 
 function FormDadosContato() {
   const [email, setEmail] = useState("joao@exemplo.com");
@@ -308,9 +381,100 @@ function renderContent(role: Role, slug: string, title: string): React.ReactNode
   }
 
   if (role === "gestao") {
+    if (slug === "cronograma")
+      return (
+        <DashboardCard title="Cronograma de Oficinas" description="Itinerário e salas (mock)">
+          <TabelaResponsiva
+            columns={[
+              { header: "Oficina", accessor: "oficina" },
+              { header: "Dia", accessor: "dia" },
+              { header: "Horário", accessor: "horario" },
+              { header: "Sala", accessor: "sala" },
+              { header: "Turma", accessor: "turma" },
+            ]}
+            data={mockCronogramaOficinas}
+          />
+        </DashboardCard>
+      );
+
+    if (slug === "voluntarios")
+      return (
+        <DashboardCard title="Voluntários" description="Cadastro e participação (mock)">
+          <TabelaResponsiva
+            columns={[
+              { header: "Nome", accessor: "nome" },
+              { header: "Área", accessor: "area" },
+              { header: "Dias", accessor: "dias" },
+              { header: "Status", accessor: "status" },
+            ]}
+            data={mockVoluntarios}
+          />
+        </DashboardCard>
+      );
+
+    if (slug === "financeiro")
+      return (
+        <DashboardCard title="Financeiro (somente leitura)" description="Fluxo de caixa resumido (mock)">
+          <ChartContainer
+            className="h-52 sm:h-64 w-full"
+            config={{
+              entradas: { label: "Entradas", color: "hsl(var(--primary))" },
+              saidas: { label: "Saídas", color: "hsl(var(--destructive))" },
+            }}
+          >
+            <BarChart data={mockFluxoCaixaMensal} margin={{ left: 8, right: 8 }}>
+              <CartesianGrid vertical={false} />
+              <XAxis dataKey="mes" tickLine={false} axisLine={false} />
+              <ChartTooltip content={<ChartTooltipContent />} />
+              <Bar dataKey="entradas" fill="var(--color-entradas)" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="saidas" fill="var(--color-saidas)" radius={[4, 4, 0, 0]} />
+            </BarChart>
+          </ChartContainer>
+        </DashboardCard>
+      );
+
+    if (slug === "relatorios")
+      return (
+        <DashboardCard title="Relatórios Institucionais" description="Lista de relatórios disponíveis (mock)">
+          <div className="space-y-3">
+            {[
+              { nome: "Relatório Mensal (Frequência)", data: "01/06/2025" },
+              { nome: "Relatório de Oficinas", data: "01/06/2025" },
+              { nome: "Relatório de Voluntários", data: "01/06/2025" },
+            ].map((r, idx) => (
+              <div key={idx} className="flex items-center justify-between gap-2 p-3 rounded-lg border bg-white">
+                <div className="min-w-0">
+                  <p className="font-semibold text-sm truncate">{r.nome}</p>
+                  <p className="text-xs text-muted-foreground">{r.data}</p>
+                </div>
+                <Button variant="outline" size="sm" className="shrink-0">Baixar</Button>
+              </div>
+            ))}
+          </div>
+        </DashboardCard>
+      );
+
+    if (slug === "frequencia")
+      return (
+        <DashboardCard title="Monitoramento de Frequência" description="Exceções e riscos (mock)">
+          <TabelaResponsiva
+            columns={[
+              { header: "Turma", accessor: "turma" },
+              { header: "Frequência", accessor: "freq" },
+              { header: "Risco", accessor: "risco" },
+            ]}
+            data={[
+              { turma: "Turma A - Manhã", freq: "72%", risco: "Alto" },
+              { turma: "Turma B - Tarde", freq: "78%", risco: "Médio" },
+              { turma: "Turma C - Noite", freq: "90%", risco: "Baixo" },
+            ]}
+          />
+        </DashboardCard>
+      );
+
     return (
       <DashboardCard title={title} description="Visão administrativa (protótipo).">
-        <div className="py-12 text-center text-muted-foreground border-2 border-dashed rounded-lg">Módulo em desenvolvimento</div>
+        <div className="py-12 text-center text-muted-foreground border-2 border-dashed rounded-lg">Conteúdo não definido</div>
       </DashboardCard>
     );
   }
@@ -344,10 +508,67 @@ function renderContent(role: Role, slug: string, title: string): React.ReactNode
           />
         </DashboardCard>
       );
-    if (["notas", "doacoes", "relatorios", "dados"].includes(slug))
+    if (slug === "notas")
       return (
-        <DashboardCard title={title} description="Protótipo de tela.">
-          <div className="py-12 text-center text-muted-foreground border-2 border-dashed rounded-lg">Módulo em desenvolvimento</div>
+        <DashboardCard title="Notas Fiscais" description="Emissão e controle (mock)">
+          <TabelaResponsiva
+            columns={[
+              { header: "Número", accessor: "numero" },
+              { header: "Data", accessor: "data" },
+              { header: "Descrição", accessor: "descricao" },
+              { header: "Valor", accessor: "valor" },
+              { header: "Status", accessor: "status" },
+            ]}
+            data={mockNotasFiscais}
+          />
+          <Button className="mt-4">Emitir nova nota</Button>
+        </DashboardCard>
+      );
+
+    if (slug === "doacoes")
+      return (
+        <div className="space-y-6">
+          <FormNovaDoacao />
+          <DashboardCard title="Doações" description="Histórico de doações (mock)">
+            <TabelaResponsiva
+              columns={[
+                { header: "Padrinho", accessor: "padrinho" },
+                { header: "Data", accessor: "data" },
+                { header: "Valor", accessor: "valor" },
+                { header: "Forma", accessor: "forma" },
+                { header: "Status", accessor: "status" },
+              ]}
+              data={mockDoacoes}
+            />
+          </DashboardCard>
+        </div>
+      );
+
+    if (slug === "relatorios")
+      return (
+        <DashboardCard title="Relatórios Financeiros" description="Consolidados e demonstrativos (mock)">
+          <div className="space-y-3">
+            {[
+              { nome: "Demonstrativo de Despesas", periodo: "Mai/2025" },
+              { nome: "Histórico de Notas Fiscais", periodo: "Mai/2025" },
+              { nome: "Resumo de Doações", periodo: "Mai/2025" },
+            ].map((r, idx) => (
+              <div key={idx} className="flex items-center justify-between gap-2 p-3 rounded-lg border bg-white">
+                <div className="min-w-0">
+                  <p className="font-semibold text-sm truncate">{r.nome}</p>
+                  <p className="text-xs text-muted-foreground">{r.periodo}</p>
+                </div>
+                <Button variant="outline" size="sm" className="shrink-0">Gerar</Button>
+              </div>
+            ))}
+          </div>
+        </DashboardCard>
+      );
+
+    if (slug === "dados")
+      return (
+        <DashboardCard title="Meus Dados" description="Perfil do colaborador (mock)">
+          <p className="text-sm text-muted-foreground">Formulário de perfil (protótipo).</p>
         </DashboardCard>
       );
   }
@@ -366,10 +587,42 @@ function renderContent(role: Role, slug: string, title: string): React.ReactNode
           />
         </DashboardCard>
       );
-    if (["anotacoes", "historico", "dados"].includes(slug))
+    if (slug === "anotacoes")
       return (
-        <DashboardCard title={title} description="Conteúdo restrito ao perfil (protótipo).">
-          <div className="py-12 text-center text-muted-foreground border-2 border-dashed rounded-lg">Módulo em desenvolvimento</div>
+        <div className="space-y-6">
+          <FormNovaAnotacao />
+          <DashboardCard title="Anotações Terapêuticas" description="Histórico recente (mock)">
+            <TabelaResponsiva
+              columns={[
+                { header: "Paciente", accessor: "paciente" },
+                { header: "Data", accessor: "data" },
+                { header: "Resumo", accessor: "resumo" },
+              ]}
+              data={mockAnotacoesPsicologo}
+            />
+          </DashboardCard>
+        </div>
+      );
+
+    if (slug === "historico")
+      return (
+        <DashboardCard title="Histórico Clínico" description="Agenda e registros do dia (mock)">
+          <TabelaResponsiva
+            columns={[
+              { header: "Horário", accessor: "horario" },
+              { header: "Paciente", accessor: "paciente" },
+              { header: "Tipo", accessor: "tipo" },
+              { header: "Status", accessor: "status" },
+            ]}
+            data={mockAtendimentosHoje}
+          />
+        </DashboardCard>
+      );
+
+    if (slug === "dados")
+      return (
+        <DashboardCard title="Meus Dados" description="Perfil profissional (mock)">
+          <p className="text-sm text-muted-foreground">Formulário de perfil (protótipo).</p>
         </DashboardCard>
       );
   }
